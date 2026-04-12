@@ -32,6 +32,128 @@
         </div>
     </nav>
 
+    <main class="container mt-4">
+        <ul class="nav nav-tabs" id="interacaoTabs">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMatriculas">Matrículas</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabProgresso">Progresso</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAvaliacoes">Avaliações</button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3">
+            <!-- SEÇÃO: MATRÍCULAS -->
+            <div class="tab-pane fade show active" id="tabMatriculas">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalMatricula">+ Nova Matrícula</button>
+                <table class="table table-striped">
+                    <thead><tr><th>ID</th><th>Usuário</th><th>Curso</th><th>Data</th></tr></thead>
+                    <tbody id="listaMatriculas"></tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÃO: PROGRESSO -->
+            <div class="tab-pane fade" id="tabProgresso">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalProgresso">+ Registrar Progresso</button>
+                <table class="table table-striped">
+                    <thead><tr><th>Usuário</th><th>Aula</th><th>Status</th></tr></thead>
+                    <tbody id="listaProgresso"></tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÃO: AVALIAÇÕES -->
+            <div class="tab-pane fade" id="tabAvaliacoes">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAvaliacao">+ Nova Avaliação</button>
+                <table class="table table-striped">
+                    <thead><tr><th>Usuário</th><th>Curso</th><th>Nota</th><th>Comentário</th></tr></thead>
+                    <tbody id="listaAvaliacoes"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalMatricula" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formMatricula">
+                    <div class="modal-header"><h5 class="modal-title">Nova Matrícula</h5></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Usuário</label>
+                            <select class="form-select sel-usuarios" id="idUsuarioMatricula" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curso</label>
+                            <select class="form-select sel-cursos" id="idCursoMatricula" required></select>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Matricular</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalProgresso" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formProgresso">
+                    <div class="modal-header"><h5 class="modal-title">Registrar Progresso</h5></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Usuário</label>
+                            <select class="form-select sel-usuarios" id="idUsuarioProgresso" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">ID Aula</label>
+                            <input type="number" class="form-control" id="idAulaProgresso" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="statusProgresso">
+                                <option value="Iniciado">Iniciado</option>
+                                <option value="Em Andamento">Em Andamento</option>
+                                <option value="Concluído">Concluído</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAvaliacao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formAvaliacao">
+                    <div class="modal-header"><h5 class="modal-title">Nova Avaliação</h5></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Usuário</label>
+                            <select class="form-select sel-usuarios" id="idUsuarioAvaliacao" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curso</label>
+                            <select class="form-select sel-cursos" id="idCursoAvaliacao" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nota (0-5)</label>
+                            <input type="number" class="form-control" id="notaAvaliacao" min="0" max="5" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Comentário</label>
+                            <textarea class="form-control" id="comentarioAvaliacao"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Enviar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="js/libs/popper.min.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>
     <script src="js/app.js"></script>

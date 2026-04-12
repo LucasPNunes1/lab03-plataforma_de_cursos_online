@@ -34,17 +34,21 @@
 
     <main class="container mt-4">
         <ul class="nav nav-tabs" id="coreTabs">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
-                    data-bs-target="#tabUsuarios">Usuários</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#tabCategorias">Categorias</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#tabCursos">Cursos</button></li>
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabUsuarios">Usuários</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabCategorias">Categorias</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabCursos">Cursos</button>
+            </li>
         </ul>
+
         <div class="tab-content mt-3">
+            <!-- SEÇÃO: USUÁRIOS -->
             <div class="tab-pane fade show active" id="tabUsuarios">
-                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalUsuario">+ Novo
-                    Usuário</button>
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalUsuario">+ Novo Usuário</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -56,18 +60,49 @@
                     <tbody id="listaUsuarios"></tbody>
                 </table>
             </div>
+
+            <!-- SEÇÃO: CATEGORIAS -->
+            <div class="tab-pane fade" id="tabCategorias">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCategoria">+ Nova Categoria</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaCategorias"></tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÃO: CURSOS -->
+            <div class="tab-pane fade" id="tabCursos">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCurso">+ Novo Curso</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Instrutor</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaCursos"></tbody>
+                </table>
+            </div>
         </div>
     </main>
 
     <div class="modal fade" id="modalUsuario" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Novo Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formUsuario">
+                <form id="formUsuario">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Novo Usuário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Nome Completo</label>
                             <input type="text" class="form-control" id="nomeUsuario" required>
@@ -80,12 +115,90 @@
                             <label class="form-label">Senha</label>
                             <input type="password" class="form-control" id="senhaUsuario" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCategoria" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formCategoria">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nova Categoria</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nomeCategoria" required>
                         </div>
-                    </form>
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descCategoria"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCurso" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="formCurso">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Novo Curso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" id="tituloCurso" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Categoria</label>
+                                <select class="form-select" id="idCategoriaCurso" required></select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descCurso"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">ID Instrutor (Usuário)</label>
+                                <input type="number" class="form-control" id="idInstrutorCurso" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Nível</label>
+                                <select class="form-select" id="nivelCurso">
+                                    <option value="Iniciante">Iniciante</option>
+                                    <option value="Intermediário">Intermediário</option>
+                                    <option value="Avançado">Avançado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Total Horas</label>
+                                <input type="number" class="form-control" id="horasCurso" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
