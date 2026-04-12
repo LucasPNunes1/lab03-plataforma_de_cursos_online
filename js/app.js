@@ -168,3 +168,43 @@ const db = {
 function salvar(tabela) {
     localStorage.setItem(tabela, JSON.stringify(db[tabela]));
 }
+
+// -- Cadastro --
+const formUsuario = document.getElementById('formUsuario');
+
+if (formUsuario) {
+    formUsuario.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const user = new Usuario(
+            db.usuarios.length + 1,
+            document.getElementById('nomeUsuario').value,
+            document.getElementById('emailUsuario').value,
+            document.getElementById('senhaUsuario').value
+        );
+
+        db.usuarios.push(user);
+        salvar('usuarios');
+        renderizarUsuarios();
+
+        e.target.reset();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalUsuario'));
+        modal.hide();
+    });
+}
+
+// -- RENDERIZAÇÃO -- 
+function renderizarUsuarios() {
+    const tbody = document.getElementById('listaUsuarios');
+    if (!tbody) return;
+
+    tbody.innerHTML = db.usuarios.map(u => `
+        <tr>
+            <td>${u.id}</td>
+            <td>${u.nome}</td>
+            <td>${u.email}</td>
+        </tr>
+    `).join('');
+}
+
+renderizarUsuarios();
