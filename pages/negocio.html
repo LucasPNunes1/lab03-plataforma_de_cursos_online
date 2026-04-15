@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Cursos</title>
 
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/vendor/bootstrap.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg border-bottom bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <img src="img/logo.png" width="30" class="d-inline-block align-text-top">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../assets/img/logo.png" width="30" class="d-inline-block align-text-top">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Core</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Core</a></li>
                     <li class="nav-item"><a class="nav-link" href="conteudo.html">Conteúdo</a></li>
                     <li class="nav-item"><a class="nav-link" href="interacao.html">Interação</a></li>
                     <li class="nav-item"><a class="nav-link" href="curadoria.html">Curadoria</a></li>
@@ -33,6 +33,8 @@
     </nav>
 
     <main class="container mt-4">
+        <div id="alerta" class="alert d-none" role="alert"></div>
+
         <ul class="nav nav-tabs" id="negocioTabs">
             <li class="nav-item">
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabPlanos">Planos</button>
@@ -50,7 +52,7 @@
             <div class="tab-pane fade show active" id="tabPlanos">
                 <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalPlano">+ Novo Plano</button>
                 <table class="table table-striped">
-                    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Duração</th></tr></thead>
+                    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Duração</th><th>Ações</th></tr></thead>
                     <tbody id="listaPlanos"></tbody>
                 </table>
             </div>
@@ -59,7 +61,7 @@
             <div class="tab-pane fade" id="tabAssinaturas">
                 <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAssinatura">+ Nova Assinatura</button>
                 <table class="table table-striped">
-                    <thead><tr><th>ID</th><th>Usuário</th><th>Plano</th><th>Status</th></tr></thead>
+                    <thead><tr><th>ID</th><th>Usuário</th><th>Plano</th><th>Status</th><th>Ações</th></tr></thead>
                     <tbody id="listaAssinaturas"></tbody>
                 </table>
             </div>
@@ -68,7 +70,7 @@
             <div class="tab-pane fade" id="tabPagamentos">
                 <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalPagamento">+ Registrar Pagamento</button>
                 <table class="table table-striped">
-                    <thead><tr><th>ID</th><th>Assinatura</th><th>Valor</th><th>Método</th></tr></thead>
+                    <thead><tr><th>ID</th><th>Assinatura</th><th>Valor</th><th>Método</th><th>Ações</th></tr></thead>
                     <tbody id="listaPagamentos"></tbody>
                 </table>
             </div>
@@ -78,23 +80,29 @@
     <div class="modal fade" id="modalPlano" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="formPlano">
-                    <div class="modal-header"><h5 class="modal-title">Novo Plano</h5></div>
+                <form id="formPlano" onsubmit="salvarEntidade(this, 'negocio', 'planos'); return false;">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cadastro de Plano</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Nome do Plano</label>
-                            <input type="text" class="form-control" id="nomePlano" required>
+                            <input type="text" class="form-control" name="nome" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Preço Mensal (R$)</label>
-                            <input type="number" step="0.01" class="form-control" id="precoPlano" required>
+                            <input type="number" step="0.01" class="form-control" name="precoMensal" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Duração (Meses)</label>
-                            <input type="number" class="form-control" id="duracaoPlano" required>
+                            <input type="number" class="form-control" name="duracaoMeses" required>
                         </div>
                     </div>
-                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Salvar</button></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -103,19 +111,25 @@
     <div class="modal fade" id="modalAssinatura" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="formAssinatura">
-                    <div class="modal-header"><h5 class="modal-title">Nova Assinatura</h5></div>
+                <form id="formAssinatura" onsubmit="salvarEntidade(this, 'negocio', 'assinaturas'); return false;">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nova Assinatura</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Usuário</label>
-                            <select class="form-select sel-usuarios" id="idUsuarioAssinatura" required></select>
+                            <select class="form-select sel-usuarios" name="idUsuario" required></select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Plano</label>
-                            <select class="form-select" id="idPlanoAssinatura" required></select>
+                            <select class="form-select sel-planos" name="idPlano" id="idPlanoAssinatura" required></select>
                         </div>
                     </div>
-                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Assinar</button></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Assinar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -124,35 +138,41 @@
     <div class="modal fade" id="modalPagamento" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="formPagamento">
-                    <div class="modal-header"><h5 class="modal-title">Registrar Pagamento</h5></div>
+                <form id="formPagamento" onsubmit="salvarEntidade(this, 'negocio', 'pagamentos'); return false;">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Registro de Pagamento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">ID Assinatura</label>
-                            <input type="number" class="form-control" id="idAssinaturaPagamento" required>
+                            <input type="text" class="form-control" name="idAssinatura" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Valor Pago (R$)</label>
-                            <input type="number" step="0.01" class="form-control" id="valorPagamento" required>
+                            <input type="number" step="0.01" class="form-control" name="valor" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Método</label>
-                            <select class="form-select" id="metodoPagamento">
+                            <select class="form-select" name="metodo">
                                 <option value="Cartão">Cartão</option>
                                 <option value="Boleto">Boleto</option>
                                 <option value="Pix">Pix</option>
                             </select>
                         </div>
                     </div>
-                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Registrar</button></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="js/libs/popper.min.js"></script>
-    <script src="js/libs/bootstrap.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="../assets/js/vendor/popper.min.js"></script>
+    <script src="../assets/js/vendor/bootstrap.min.js"></script>
+    <script type="module" src="../js/main.mjs"></script>
 
 </body>
 

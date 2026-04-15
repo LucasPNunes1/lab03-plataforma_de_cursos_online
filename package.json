@@ -1,0 +1,12 @@
+{
+  "name": "html-css-bootstrap-cursos",
+  "version": "1.0.0",
+  "description": "Plataforma de Cursos Online - MVC",
+  "main": "main.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "author": "Lucas Pereira Nunes",
+  "license": "ISC"
+}
