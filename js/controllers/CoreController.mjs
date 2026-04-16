@@ -42,6 +42,9 @@ export function renderCursos(filtroId = 'todos') {
     if (!tbody) return;
     let lista = svc.listar('cursos');
 
+    const usuarios = svc.listar('usuarios');
+    const nomePorId = Object.fromEntries(usuarios.map(u => [u.id, u.nome]));
+
     if (filtroId !== 'todos') {
         lista = lista.filter(c => c.idCategoria === filtroId);
     }
@@ -50,7 +53,7 @@ export function renderCursos(filtroId = 'todos') {
         <tr>
             <td>${c.id.substring(0, 8)}...</td>
             <td>${c.titulo}</td>
-            <td>ID Instrutor: ${c.idInstrutor.substring(0, 5)}...</td>
+            <td>${nomePorId[c.idInstrutor] || c.idInstrutor.substring(0, 8) + '...'}</td>
             <td>${c.nivel}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary" onclick="editar('cursos', '${c.id}')">Editar</button>

@@ -9,7 +9,7 @@ import { ConteudoService } from './services/ConteudoService.mjs';
 import { InteracaoService } from './services/InteracaoService.mjs';
 import { CuradoriaService } from './services/CuradoriaService.mjs';
 import { NegocioService } from './services/NegocioService.mjs';
-import { SeedService } from './services/SeedService.mjs';
+
 
 const coreSvc = new CoreService();
 const contSvc = new ConteudoService();
@@ -56,8 +56,10 @@ window.editar = (entidade, id) => {
     const form = document.getElementById(formId) || document.querySelector(`form[id*="${entidade}"]`);
 
     if (form) {
+        carregarSelects();
         Object.keys(item).forEach(key => {
-            if (form[key]) form[key].value = item[key];
+            const field = form.elements[key];
+            if (field) field.value = item[key];
         });
         form.dataset.editId = id;
 
@@ -108,6 +110,17 @@ window.carregarSelects = () => {
     const sPlano = document.getElementById('idPlanoAssinatura');
     if (sPlano) sPlano.innerHTML = '<option value="">Selecione o Plano...</option>' +
         planes.map(p => `<option value="${p.id}">${p.nome}</option>`).join('');
+
+    const assinaturas = negSvc.listar('assinaturas');
+    const nomeUsuario = Object.fromEntries(users.map(u => [u.id, u.nome]));
+    const nomePlano = Object.fromEntries(planes.map(p => [p.id, p.nome]));
+    document.querySelectorAll('.sel-assinaturas').forEach(s => {
+        s.innerHTML = '<option value="">Selecione a Assinatura...</option>' +
+            assinaturas.map(a => {
+                const label = `${nomeUsuario[a.idUsuario] || '?'} — ${nomePlano[a.idPlano] || '?'} (${a.status})`;
+                return `<option value="${a.id}">${label}</option>`;
+            }).join('');
+    });
 };
 
 function renderAll() {
@@ -132,7 +145,6 @@ document.getElementById('filtroCategoriaCurso')?.addEventListener('change', (e) 
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-    SeedService.popular(svcs);
     renderAll();
     window.carregarSelects();
 });

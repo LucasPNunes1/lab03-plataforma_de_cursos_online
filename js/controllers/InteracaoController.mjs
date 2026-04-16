@@ -1,17 +1,27 @@
 import { InteracaoService } from '../services/InteracaoService.mjs';
+import { CoreService } from '../services/CoreService.mjs';
+import { ConteudoService } from '../services/ConteudoService.mjs';
 import { mostrarAlerta } from './UIUtils.mjs';
 
 const svc = new InteracaoService();
+const coreSvc = new CoreService();
+const contSvc = new ConteudoService();
 
 export function renderMatriculas() {
     const tbody = document.getElementById('listaMatriculas');
     if (!tbody) return;
     const lista = svc.listar('matriculas');
+
+    const usuarios = coreSvc.listar('usuarios');
+    const cursos = coreSvc.listar('cursos');
+    const nomeUsuario = Object.fromEntries(usuarios.map(u => [u.id, u.nome]));
+    const nomeCurso = Object.fromEntries(cursos.map(c => [c.id, c.titulo]));
+
     tbody.innerHTML = lista.map(m => `
         <tr>
             <td>${m.id.substring(0,8)}...</td>
-            <td>User: ${m.idUsuario.substring(0,5)}...</td>
-            <td>Curso: ${m.idCurso.substring(0,5)}...</td>
+            <td>${nomeUsuario[m.idUsuario] || m.idUsuario.substring(0,8) + '...'}</td>
+            <td>${nomeCurso[m.idCurso] || m.idCurso.substring(0,8) + '...'}</td>
             <td>${new Date(m.dataMatricula).toLocaleDateString()}</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger" onclick="excluir('matriculas', '${m.id}')">Excluir</button>
@@ -24,10 +34,16 @@ export function renderProgressos() {
     const tbody = document.getElementById('listaProgresso');
     if (!tbody) return;
     const lista = svc.listar('progressos');
+
+    const usuarios = coreSvc.listar('usuarios');
+    const aulas = contSvc.listar('aulas');
+    const nomeUsuario = Object.fromEntries(usuarios.map(u => [u.id, u.nome]));
+    const nomeAula = Object.fromEntries(aulas.map(a => [a.id, a.titulo]));
+
     tbody.innerHTML = lista.map(p => `
         <tr>
-            <td>ID User: ${p.idUsuario.substring(0,5)}...</td>
-            <td>ID Aula: ${p.idAula.substring(0,5)}...</td>
+            <td>${nomeUsuario[p.idUsuario] || p.idUsuario.substring(0,8) + '...'}</td>
+            <td>${nomeAula[p.idAula] || p.idAula.substring(0,8) + '...'}</td>
             <td>${p.status}</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger" onclick="excluir('progressos', '${p.idUsuario}:${p.idAula}')">Excluir</button>
@@ -40,10 +56,16 @@ export function renderAvaliacoes() {
     const tbody = document.getElementById('listaAvaliacoes');
     if (!tbody) return;
     const lista = svc.listar('avaliacoes');
+
+    const usuarios = coreSvc.listar('usuarios');
+    const cursos = coreSvc.listar('cursos');
+    const nomeUsuario = Object.fromEntries(usuarios.map(u => [u.id, u.nome]));
+    const nomeCurso = Object.fromEntries(cursos.map(c => [c.id, c.titulo]));
+
     tbody.innerHTML = lista.map(a => `
         <tr>
-            <td>User: ${a.idUsuario.substring(0,5)}...</td>
-            <td>Curso: ${a.idCurso.substring(0,5)}...</td>
+            <td>${nomeUsuario[a.idUsuario] || a.idUsuario.substring(0,8) + '...'}</td>
+            <td>${nomeCurso[a.idCurso] || a.idCurso.substring(0,8) + '...'}</td>
             <td>${a.nota}★</td>
             <td>
                 <button class="btn btn-sm btn-outline-danger" onclick="excluir('avaliacoes', '${a.id}')">Excluir</button>

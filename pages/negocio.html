@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg border-bottom bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.html">
@@ -32,6 +33,7 @@
         </div>
     </nav>
 
+    <!-- CONTEÚDO PRINCIPAL (Tabs e Listagens) -->
     <main class="container mt-4">
         <div id="alerta" class="alert d-none" role="alert"></div>
 
@@ -77,6 +79,9 @@
         </div>
     </main>
 
+    <!-- SEÇÃO: MODAIS -->
+
+    <!-- SEÇÃO: MODAL DO PLANO -->
     <div class="modal fade" id="modalPlano" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -108,6 +113,7 @@
         </div>
     </div>
 
+    <!-- SEÇÃO: MODAL DA ASSINATURA -->
     <div class="modal fade" id="modalAssinatura" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -135,6 +141,7 @@
         </div>
     </div>
 
+    <!-- SEÇÃO: MODAL DO PAGAMENTO -->
     <div class="modal fade" id="modalPagamento" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -145,8 +152,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">ID Assinatura</label>
-                            <input type="text" class="form-control" name="idAssinatura" required>
+                            <label class="form-label">Assinatura</label>
+                            <select class="form-select sel-assinaturas" name="idAssinatura" required></select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Valor Pago (R$)</label>

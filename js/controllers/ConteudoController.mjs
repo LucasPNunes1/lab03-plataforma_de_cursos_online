@@ -1,16 +1,22 @@
 import { ConteudoService } from '../services/ConteudoService.mjs';
+import { CoreService } from '../services/CoreService.mjs';
 import { mostrarAlerta } from './UIUtils.mjs';
 
 const svc = new ConteudoService();
+const coreSvc = new CoreService();
 
 export function renderModulos() {
     const tbody = document.getElementById('listaModulos');
     if (!tbody) return;
     const lista = svc.listar('modulos');
+
+    const cursos = coreSvc.listar('cursos');
+    const nomeCurso = Object.fromEntries(cursos.map(c => [c.id, c.titulo]));
+
     tbody.innerHTML = lista.map(m => `
         <tr>
             <td>${m.id.substring(0, 8)}...</td>
-            <td>ID Curso: ${m.idCurso.substring(0, 5)}...</td>
+            <td>${nomeCurso[m.idCurso] || m.idCurso.substring(0, 8) + '...'}</td>
             <td>${m.titulo}</td>
             <td>${m.ordem}º</td>
             <td>
@@ -25,10 +31,14 @@ export function renderAulas() {
     const tbody = document.getElementById('listaAulas');
     if (!tbody) return;
     const lista = svc.listar('aulas');
+
+    const modulos = svc.listar('modulos');
+    const nomeModulo = Object.fromEntries(modulos.map(m => [m.id, m.titulo]));
+
     tbody.innerHTML = lista.map(a => `
         <tr>
             <td>${a.id.substring(0, 8)}...</td>
-            <td>ID Mod: ${a.idModulo.substring(0, 5)}...</td>
+            <td>${nomeModulo[a.idModulo] || a.idModulo.substring(0, 8) + '...'}</td>
             <td>${a.titulo}</td>
             <td>${a.tipo}</td>
             <td>
